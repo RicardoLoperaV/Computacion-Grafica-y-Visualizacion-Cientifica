@@ -5,13 +5,11 @@
 
 Este repositorio abarca desde los fundamentos de la visualización de datos hasta técnicas avanzadas como la reducción de dimensionalidad (PCA, t-SNE) , la representación de soluciones numéricas de EDPs (campos escalares y vectoriales) y la modelización geométrica con curvas de Bézier, B-Spline y NURBS.
 
-Repositorio con las actividades y proyectos desarrollados para el curso **Computación Gráfica y Visualización Científica** , semestre 2025-2, dictado por la profesora Manuela Bastidas Olivares.
-
 ***
 
 ## 📚 Contenido del Repositorio
 
-El repositorio está organizado según los temas cubiertos en el curso. Cada carpeta contiene los Jupyter Notebooks con las implementaciones en Python, así como los informes y análisis escritos en LaTeX.
+Cada carpeta contiene los Jupyter Notebooks con las implementaciones en Python, así como los informes y análisis escritos en LaTeX.
 
 1.  **Motivación y Aplicaciones** 
     * Ensayo sobre aplicaciones de la visualización científica.
@@ -62,4 +60,8 @@ El repositorio está organizado según los temas cubiertos en el curso. Cada car
 
 Para consultas sobre el curso, contactar a la profesora **Manuela Bastidas Olivares**:
 * **Correo:** mbastidaso@unal.edu.co 
-* **Oficina:** 43-223 
+* **Oficina:** 43-223
+
+Para consultas sobre el repositorio:
+* **Nombre:** Ricardo Esteban Lopera Vasco
+* **Correo:** rloperav@gmail.com
