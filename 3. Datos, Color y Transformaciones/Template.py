@@ -12,7 +12,7 @@ class Template:
         plt.rcParams.update({
         # Font settings - LaTeX style
         'font.family': 'serif',
-        'font.serif': ['Computer Modern Roman', 'Times New Roman', 'DejaVu Serif'],
+        'font.serif': ['Computer Modern Roman'],
         'font.size': 11,
         'axes.labelsize': 12,
         'axes.titlesize': 14,
