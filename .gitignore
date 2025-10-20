@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+#fine tuning models
+build_config.json
+checkpoint.weights.h5
+trial.json
+
 # Data files
 *.csv
 *.dat
