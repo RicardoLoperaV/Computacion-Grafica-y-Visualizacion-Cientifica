@@ -11,6 +11,7 @@ class Template:
         # Configure matplotlib to use LaTeX fonts
         plt.rcParams.update({
         # Font settings - LaTeX style
+        'text.usetex': True,  # Use LaTeX for all text rendering
         'font.family': 'serif',
         'font.serif': ['Computer Modern Roman'],
         'font.size': 11,
@@ -20,6 +21,12 @@ class Template:
         'ytick.labelsize': 10,
         'legend.fontsize': 10,
         'figure.titlesize': 16,
+        
+        # Math text settings - use LaTeX style
+        'mathtext.fontset': 'cm',  # Computer Modern font for math
+        'mathtext.rm': 'serif',
+        'mathtext.it': 'serif:italic',
+        'mathtext.bf': 'serif:bold',
         
         
         # Grid settings - darker and more visible
