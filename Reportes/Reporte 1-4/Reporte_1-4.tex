@@ -617,7 +617,50 @@ Before training, the following were applied:
     \label{fig:mlp_confusion}
 \end{figure}
 
-Deep neural networks can capture complex non-linear relationships between principal components, potentially outperforming traditional methods on large datasets. The optimal architecture found balances expressive capacity and prevention of overfitting.
+\subsubsection{Hyperparameter Tuning Analysis}
+
+The Keras Tuner RandomSearch evaluated 50 different network configurations with 2 executions each (100 training runs total). The optimal architecture identified consists of 3 hidden layers with a decreasing neuron pattern:
+
+\begin{itemize}
+    \item \textbf{Layer 1}: 448 neurons, ELU activation, 10\% dropout
+    \item \textbf{Layer 2}: 160 neurons, tanh activation, 10\% dropout  
+    \item \textbf{Layer 3}: 96 neurons, tanh activation, no dropout
+    \item \textbf{Learning rate}: $2.32 \times 10^{-3}$ (Adam optimizer)
+\end{itemize}
+
+The search rejected batch normalization in all layers, suggesting the PCA-transformed features were already well-scaled. The decreasing architecture (448 $\rightarrow$ 160 $\rightarrow$ 96) implements a funnel pattern that progressively abstracts high-level features from the 40 PCA components. The combination of ELU in the first layer and tanh in subsequent layers provides complementary non-linearities: ELU handles negative inputs smoothly while tanh constrains outputs to [-1,1].
+
+\subsubsection{Performance Evaluation}
+
+The optimized MLP achieved 72.04\% test accuracy, representing a substantial improvement over KNN (41.67\%) and SVM (44.09\%). Per-class analysis reveals:
+
+\textbf{Excellent performance (F1 $\geq$ 0.90):}
+\begin{itemize}
+    \item \textbf{Control}: 100\% precision, 92\% recall (F1=0.96) - Near-perfect identification
+    \item \textbf{E\_Hidrico}: 92\% precision, 100\% recall (F1=0.96) - Complete detection of water stress
+\end{itemize}
+
+\textbf{Good performance (0.70 $\leq$ F1 $<$ 0.90):}
+\begin{itemize}
+    \item \textbf{Fusarium}: 89\% precision, 67\% recall (F1=0.76) - High confidence when predicted
+    \item \textbf{Ral\_EH}: 80\% precision, 67\% recall (F1=0.73) - Moderate confusion with other combined stresses
+    \item \textbf{Fus\_EH}: 75\% precision, 67\% recall (F1=0.71) - Partial overlap with triple stress
+\end{itemize}
+
+\textbf{Challenging classes (F1 $<$ 0.70):}
+\begin{itemize}
+    \item \textbf{Ralstonia}: 67\% precision/recall (F1=0.67) - Confused with Ral\_Fus
+    \item \textbf{Ral\_Fus}: 44\% precision, 67\% recall (F1=0.53) - Major misclassifications with Fus\_EH\_Ral  
+    \item \textbf{Fus\_EH\_Ral}: 50\% precision/recall (F1=0.50) - Most difficult class (triple stress complexity)
+\end{itemize}
+
+The confusion matrix shows strong diagonal dominance for simple treatments (Control, E\_Hidrico), while combined stresses exhibit inter-class confusion. Ralstonia-containing combinations (Ral\_Fus, Ral\_EH, Fus\_EH\_Ral) form a confusion cluster, suggesting spectral similarity in bacterial stress responses when combined with other factors.
+
+\subsubsection{Comparison with Traditional Models}
+
+The MLP's superior performance (72.04\% vs. 44.09\% SVM) stems from its capacity to model complex non-linear decision boundaries in the 40-dimensional PCA space. Traditional methods struggle with combined stresses because they assume simpler functional forms. The neural network's hierarchical feature extraction automatically learns stress interaction patterns that manual feature engineering would miss. However, the MLP required 100× more computational resources (hyperparameter tuning) than GridSearchCV-based methods, making it suitable primarily for scenarios where maximum accuracy justifies the training cost.
+
+
 
 \subsection{Bagging with Decision Trees}
 
