@@ -661,51 +661,6 @@ The confusion matrix shows strong diagonal dominance for simple treatments (Cont
 The MLP's superior performance (72.04\% vs. 44.09\% SVM) stems from its capacity to model complex non-linear decision boundaries in the 40-dimensional PCA space. Traditional methods struggle with combined stresses because they assume simpler functional forms. The neural network's hierarchical feature extraction automatically learns stress interaction patterns that manual feature engineering would miss. However, the MLP required 100× more computational resources (hyperparameter tuning) than GridSearchCV-based methods, making it suitable primarily for scenarios where maximum accuracy justifies the training cost.
 
 
-
-\subsection{Bagging with Decision Trees}
-
-\subsubsection{Ensemble Foundation}
-
-Bagging (Bootstrap Aggregating) combines multiple decision trees trained on bootstrap subsets of the data to reduce variance:
-
-\begin{equation}
-\hat{f}_{\text{bag}}(x) = \frac{1}{B} \sum_{b=1}^{B} \hat{f}_b(x)
-\end{equation}
-
-where $B$ is the number of trees and $\hat{f}_b$ is the $b$-th tree trained on a bootstrap sample.
-
-\subsubsection{Hyperparameter Search Space}
-
-\begin{itemize}
-    \item \textbf{pca\_\_n\_components}: [5, 10, 15, 20, 30, 40]
-    \item \textbf{bagging\_\_n\_estimators}: [10, 50, 100, 200]
-    \item \textbf{bagging\_\_max\_samples}: [0.5, 0.7, 1.0]
-    \item \textbf{bagging\_\_max\_features}: [0.5, 0.7, 1.0]
-    \item \textbf{bagging\_\_bootstrap}: [True, False]
-    \item \textbf{bagging\_\_bootstrap\_features}: [True, False]
-    \item \textbf{base\_estimator\_\_criterion}: ['gini', 'entropy']
-    \item \textbf{base\_estimator\_\_max\_depth}: [None, 5, 10, 15, 20]
-    \item \textbf{base\_estimator\_\_min\_samples\_split}: [2, 5, 10]
-    \item \textbf{base\_estimator\_\_min\_samples\_leaf}: [1, 2, 4]
-    \item \textbf{base\_estimator\_\_max\_features}: [None, 'sqrt', 'log2']
-    \item \textbf{base\_estimator\_\_class\_weight}: [None, 'balanced']
-    \item \textbf{base\_estimator\_\_splitter}: ['best', 'random']
-\end{itemize}
-
-\subsubsection{Bagging Results}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \textit{[FIGURE PLACEHOLDER]}\\
-        \vspace{10cm}
-        Confusion matrix for Bagging
-    }}
-    \caption{Confusion matrix of the optimized Bagging model. Ensemble methods typically provide improved robustness against outliers and overfitting compared to individual trees. The aggregation of multiple predictions smooths irregular decision boundaries.}
-    \label{fig:bagging_confusion}
-\end{figure}
-
 \newpage
 \section{Results and Discussion}
 \label{sec:results}
@@ -718,12 +673,11 @@ where $B$ is the number of trees and $\hat{f}_b$ is the $b$-th tree trained on a
 \label{tab:model_comparison}
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Model} & \textbf{Accuracy} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Training Time} \\
+\textbf{Model} & \textbf{Accuracy} & \textbf{Macro F1} & \textbf{Weighted F1} \\
 \midrule
-KNN & [VALUE] & [VALUE] & [VALUE] & [TIME] \\
-SVM & [VALUE] & [VALUE] & [VALUE] & [TIME] \\
-MLP & [VALUE] & [VALUE] & [VALUE] & [TIME] \\
-Bagging & [VALUE] & [VALUE] & [VALUE] & [TIME] \\
+KNN & 44.09\% & 45.00\% & 45.00\% \\
+SVM & 54.84\% & 54.00\% & 54.00\% \\
+MLP & 72.04\% & 73.00\% & 73.00\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -736,7 +690,7 @@ All models showed excellent performance in identifying control (unstressed) plan
 
 \subsubsection{Performance on Individual Stresses}
 
-Individual stresses (E\_Hidrico, Fusarium, Ralstonia) were also classified with high accuracy (F1 > 0.85 on average). Each type of stress induces characteristic biochemical changes:
+Individual stresses (E\_Hidrico, Fusarium, Ralstonia) were also classified with high accuracy (F1 $> 0.85$ on average). Each type of stress induces characteristic biochemical changes:
 
 \begin{itemize}
     \item \textbf{Water stress}: Reduces water content, primarily affecting water absorption bands (1400-1500 nm, 1900-2000 nm)
@@ -780,28 +734,6 @@ The extreme outlier detected in PCA (Figure \ref{fig:pca3d}) corresponds to a pl
 
 It is recommended to manually investigate this sample and potentially remove it from the training set in future analyses if confirmed as a true outlier.
 
-\subsection{Impact of the Number of PCA Components}
-
-\begin{table}[H]
-\centering
-\caption{Effect of the number of PCA components on KNN accuracy}
-\label{tab:pca_components}
-\begin{tabular}{lccc}
-\toprule
-\textbf{PCA Components} & \textbf{Explained Variance} & \textbf{Accuracy} & \textbf{Training Time} \\
-\midrule
-3 & ~77\% & [VALUE] & [TIME] \\
-5 & ~78\% & [VALUE] & [TIME] \\
-10 & ~79\% & [VALUE] & [TIME] \\
-20 & ~80\% & [VALUE] & [TIME] \\
-30 & ~81\% & [VALUE] & [TIME] \\
-40 & ~82\% & [VALUE] & [TIME] \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The results indicate diminishing returns after ~10-20 components, suggesting that most of the discriminative information is captured in the first few components.
-
 \subsection{Study Limitations}
 
 \begin{enumerate}
@@ -812,102 +744,241 @@ The results indicate diminishing returns after ~10-20 components, suggesting tha
 \end{enumerate}
 
 \newpage
-\section{Conclusions and Future Work}
-\label{sec:conclusions}
+\subsection{Case Study: Fus\_EH Anomaly Investigation}
+\label{subsec:fus_eh_case}
 
-\subsection{Main Conclusions}
+\subsubsection{Motivation and Problem Statement}
 
+During the initial PCA analysis (Section \ref{sec:dimreduction}), an extreme outlier was detected in the Fus\_EH treatment from sheet 0 (Figure \ref{fig:pca3d}). This anomaly raised critical questions about data quality and experimental consistency. To investigate this phenomenon systematically, a dedicated case study was conducted analyzing the spectral behavior of Fus\_EH samples across all four experimental sheets.
+
+\textbf{Research questions:}
 \begin{enumerate}
-    \item \textbf{Feasibility of spectral classification}: The results demonstrate that NIR spectroscopy combined with machine learning can effectively classify different types of stress in plants with high accuracy (>85\% on average).
-    
-    \item \textbf{Effectiveness of dimensionality reduction}: PCA captures >78\% of the total variance with only 2-3 components, confirming that most of the discriminative information is contained in a low-dimensional subspace. t-SNE provides superior cluster visualization (trustworthiness 0.987) but PCA is more suitable for model preprocessing.
-    
-    \item \textbf{Model comparison}: The four evaluated models (KNN, SVM, MLP, Bagging) showed competitive performance, with specific advantages:
-    \begin{itemize}
-        \item KNN: Simple, interpretable, effective for well-separated data
-        \item SVM: Robust with RBF kernel for non-linear boundaries
-        \item MLP: Greater expressive capacity for complex patterns
-        \item Bagging: Improved robustness against outliers
-    \end{itemize}
-    
-    \item \textbf{Informative spectral regions}: Water absorption bands (1400-1500 nm, 1900-2000 nm) and carbohydrate regions (2100-2300 nm) are the most important for stress discrimination, confirming prior knowledge of plant physiology.
-    
-    \item \textbf{Challenges in combined stresses}: Treatments with multiple simultaneous stresses present greater classification difficulty due to synergistic effects and greater intra-class variability.
-    
-    \item \textbf{Scientific visualization}: The developed visualization techniques (spectral curves, inset plots, multiple graph types) facilitated data exploration and communication of results effectively.
+    \item Is the anomalous spectral pattern specific to sheet 0 or present across all experimental sessions?
+    \item What spectral regions exhibit the anomalous behavior?
+    \item Can models trained without the anomalous data achieve better generalization?
 \end{enumerate}
 
-\subsection{Practical Implications}
+\subsubsection{Spectral Signature Analysis Across Sheets}
 
-The findings have direct implications for:
+Figure \ref{fig:fus_eh_comparison} presents the average NIR spectral signatures (1400-2500 nm) of Fus\_EH samples from each experimental sheet.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Plots/FusEH_Sheet_Comparison.png}
+    \caption{Comparison of average Fus\_EH spectral signatures across experimental sheets. The 1800-1889 nm region (highlighted) shows dramatic divergence in sheet 0.}
+    \label{fig:fus_eh_comparison}
+\end{figure}
+
+\textbf{Key observations:}
 \begin{itemize}
-    \item \textbf{Precision agriculture}: Early stress detection using portable NIR sensors
-    \item \textbf{Plant breeding}: Selection of tolerant genotypes based on spectral responses
-    \item \textbf{Non-invasive monitoring}: Continuous assessment of plant health without tissue destruction
-    \item \textbf{Automated diagnostics}: Automatic classification systems in greenhouses
+    \item \textbf{Sheets 1, 2, and 3}: Exhibit consistent spectral patterns with reflectance values between 0.2-0.6 across most wavelengths
+    \item \textbf{Sheet 0}: Shows anomalous behavior in the 1800-1889 nm region, with reflectance dropping near zero
+    \item \textbf{Global pattern}: Outside the anomalous region, sheet 0 follows similar trends to other sheets
 \end{itemize}
 
-\subsection{Future Work}
+The 1800-1889 nm region corresponds to the second overtone of O-H stretching vibrations, highly sensitive to water content and hydrogen bonding in plant tissues. The near-zero reflectance in sheet 0 suggests either extreme water loss or instrumental artifacts.
 
-Promising directions for future research include:
+\subsubsection{Individual Plant Analysis}
+
+To determine whether the anomaly affects all plants in sheet 0 or specific individuals, spectral signatures were examined at the plant level.
+
+\begin{figure}[H]
+    \centering
+
+    \includegraphics[width=\textwidth]{Plots/FusEH_Sheet0_Individual.png}
+    \caption{Sheet 0 - Individual plant signatures}
+    \label{fig:fus_eh_sheet0}
+
+     
+    \label{fig:fus_eh_individual}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \hfill
+
+    \includegraphics[width=\textwidth]{Plots/FusEH_Sheet1_Individual.png}
+    \caption{Sheet 1 - Individual plant signatures}
+    \label{fig:fus_eh_sheet1}
+
+     
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \includegraphics[width=\textwidth]{Plots/FusEH_Sheet2_Individual.png}
+    \caption{Sheet 2 - Individual plant signatures}
+    \label{fig:fus_eh_sheet2}
+
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \includegraphics[width=\textwidth]{Plots/FusEH_Sheet3_Individual.png}
+    \caption{Sheet 3 - Individual plant signatures}
+    \label{fig:fus_eh_sheet3}
+
+\end{figure}
+
+\textbf{Analysis by sheet:}
+
+\begin{itemize}
+    \item \textbf{Sheet 0 (Figure \ref{fig:fus_eh_sheet0})}: All plants exhibit the anomalous dip in 1800-1889 nm, indicating a systematic issue rather than individual plant variation. The pattern is uniform across all Fus\_EH samples in this session.
+    
+    \item \textbf{Sheet 1 (Figure \ref{fig:fus_eh_sheet1})}: Normal spectral behavior with typical inter-plant variability. The 1800-1889 nm region shows expected water absorption characteristics.
+    
+    \item \textbf{Sheet 2 (Figure \ref{fig:fus_eh_sheet2})}: Consistent with sheet 1, displaying natural biological variation without systematic artifacts.
+    
+    \item \textbf{Sheet 3 (Figure \ref{fig:fus_eh_sheet3})}: Similar pattern to sheets 1 and 2, confirming that the anomaly is isolated to sheet 0.
+\end{itemize}
+
+\subsubsection{Diagnosis: Systematic Measurement Artifact}
+
+The evidence strongly suggests a \textbf{systematic instrumental or environmental artifact} specific to the sheet 0 measurement session:
 
 \begin{enumerate}
-    \item \textbf{Longitudinal studies}: Analyze the temporal evolution of spectral signatures during stress development
-    
-    \item \textbf{Transfer learning}: Apply pre-trained models to new species or stress types
-    
-    \item \textbf{Feature selection}: Investigate methods for optimal wavelength selection to reduce dimensionality without information loss
-    
-    \item \textbf{Advanced ensembles}: Combine predictions from multiple models using stacking or voting
-    
-    \item \textbf{Interpretability}: Apply XAI (Explainable AI) techniques like SHAP or LIME to understand model decisions
-    
-    \item \textbf{Field data}: Validate models with data collected under real-world field conditions
-    
-    \item \textbf{Multimodality}: Integrate spectral data with other sources (RGB images, thermal, fluorescence)
-    
-    \item \textbf{Specialized deep learning}: Explore architectures like 1D CNNs or Transformers for spectral data
-    
-    \item \textbf{Anomaly detection}: Develop specific methods to identify and handle outliers like the one observed in Fusarium
-    
-    \item \textbf{Severity quantification}: Extend from categorical classification to regression to estimate stress levels
+    \item \textbf{Consistency within sheet 0}: All Fus\_EH plants show identical anomalous pattern
+    \item \textbf{Spectral specificity}: Anomaly confined to 1800-1889 nm (water absorption band)
+    \item \textbf{Session specificity}: Absent in sheets 1, 2, and 3 measured at different times
+    \item \textbf{Treatment specificity}: May affect other treatments in sheet 0 (requires verification)
 \end{enumerate}
 
-\subsection{Final considerations}
+\textbf{Possible causes:}
+\begin{itemize}
+    \item Spectrometer calibration drift during sheet 0 session
+    \item Environmental humidity variations affecting the 1800 nm water band
+    \item Lamp intensity fluctuations in the NIR range
+    \item Reference panel contamination or degradation
+\end{itemize}
 
-This work demonstrates the potential of combining NIR spectroscopy with advanced visualization and machine learning techniques for plant stress diagnostics. The developed methodology is extensible to other crops, stress types, and high-throughput phenotyping applications.
+\subsubsection{Impact on Dimensionality Reduction}
 
-The successful reduction of over 2,150 spectral dimensions to 2-3 dimensional spaces without significant loss of discriminative information highlights the intrinsic redundancy in spectral data and the effectiveness of techniques like PCA. Simultaneously, the superiority of t-SNE in preserving local structure (trustworthiness 0.987 vs 0.977 for PCA) confirms its value for exploratory visualization.
+To quantify the effect of excluding sheet 0 Fus\_EH samples, PCA and t-SNE were recalculated without this subset.
 
-The four classification models evaluated achieved comparable performance, suggesting that the optimal model selection should consider not only accuracy but also interpretability, inference speed, and computational requirements depending on the application context.
+\begin{figure}[H]
+    \centering
 
-Finally, the detection of the extreme outlier in the Fusarium treatment underscores the importance of rigorous exploratory analysis and quality control in spectral data, where instrumental or biological anomalies can significantly impact results.
+    \includegraphics[width=\textwidth]{Plots/PCA_Without_FusEH0.png}
+    \caption{2D PCA without sheet 0 Fus\_EH}
+    \label{fig:pca_without_fus0}
 
-\newpage
-\section*{References}
 
-\begin{enumerate}[label={[\arabic*]}]
-    \item Jolliffe, I. T., \& Cadima, J. (2016). Principal component analysis: a review and recent developments. \textit{Philosophical Transactions of the Royal Society A}, 374(2065), 20150202.
-    
-    \item van der Maaten, L., \& Hinton, G. (2008). Visualizing data using t-SNE. \textit{Journal of Machine Learning Research}, 9(Nov), 2579-2605.
-    
-    \item Vembandasamy, K., Sasipriya, R., \& Deepa, E. (2015). Heart diseases detection using Naive Bayes algorithm. \textit{International Journal of Innovative Science, Engineering \& Technology}, 2(9), 441-444.
-    
-    \item Cortes, C., \& Vapnik, V. (1995). Support-vector networks. \textit{Machine Learning}, 20(3), 273-297.
-    
-    \item Breiman, L. (1996). Bagging predictors. \textit{Machine Learning}, 24(2), 123-140.
-    
-    \item Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. \textit{Journal of Machine Learning Research}, 12, 2825-2830.
-    
-    \item Abadi, M., et al. (2016). TensorFlow: A system for large-scale machine learning. \textit{12th USENIX Symposium on Operating Systems Design and Implementation}, 265-283.
-    
-    \item O'Malley, T., et al. (2019). Keras Tuner. \url{https://github.com/keras-team/keras-tuner}.
-    
-    \item Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. \textit{Computing in Science \& Engineering}, 9(3), 90-95.
-    
-    \item Waskom, M. L. (2021). seaborn: statistical data visualization. \textit{Journal of Open Source Software}, 6(60), 3021.
+\end{figure}
+
+\begin{figure}
+
+    \centering
+
+    \includegraphics[width=\textwidth]{Plots/PCA3D_Without_FusEH0.png}
+    \caption{3D PCA without sheet 0 Fus\_EH}
+    \label{fig:pca3d_without_fus0}
+
+    \caption{PCA visualizations after excluding anomalous Fus\_EH samples from sheet 0.}
+    \label{fig:pca_cleaned}
+\end{figure}
+
+\textbf{PCA results (cleaned dataset):}
+\begin{itemize}
+    \item \textbf{2D PCA}: PC1 = 71.92\%, PC2 = 20.71\%, Total = 92.63\%
+    \item \textbf{3D PCA}: PC1 = 67.33\%, PC2 = 25.08\%, PC3 = 4.04\%, Total = 96.45\%
+    \item \textbf{Outlier elimination}: The extreme outlier disappears, producing cleaner cluster separation
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+
+        \includegraphics[width=\textwidth]{Plots/TSNE_Without_FusEH0.png}
+        \caption{2D t-SNE without sheet 0 Fus\_EH}
+        \label{fig:tsne_without_fus0}
+
+ 
+\end{figure}
+
+\begin{figure}
+    \centering
+
+
+    \includegraphics[width=\textwidth]{Plots/TSNE3D_Without_FusEH0.png}
+    \caption{3D t-SNE without sheet 0 Fus\_EH}
+    \label{fig:tsne3d_without_fus0}
+
+\end{figure}
+
+\textbf{Trustworthiness comparison:}
+
+\begin{table}[H]
+\centering
+\caption{Trustworthiness scores with and without sheet 0 Fus\_EH samples}
+\label{tab:trustworthiness_comparison}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Method} & \textbf{Original Dataset} & \textbf{Cleaned Dataset} \\
+\midrule
+PCA 2D & 0.9747 & 0.9758 \\
+PCA 3D & 0.9779 & 0.9853 \\
+t-SNE 2D & 0.9795 & 0.9767 \\
+t-SNE 3D & 0.9870 & 0.9871 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Excluding the anomalous data improves PCA 3D trustworthiness by 0.74\%, indicating better preservation of neighborhood structure.
+
+\subsubsection{Impact on Classification Performance}
+
+Models were retrained excluding sheet 0 Fus\_EH samples to evaluate performance improvement.
+
+\begin{table}[H]
+\centering
+\caption{Classification performance comparison: Original vs. Cleaned dataset}
+\label{tab:model_performance_cleaned}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Original Accuracy} & \textbf{Cleaned Accuracy} & \textbf{$\Delta$ Accuracy} \\
+\midrule
+KNN & 41.67\% & 44.09\% & +2.42\% \\
+SVM & 44.09\% & 54.84\% & +10.75\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key findings:}
+\begin{itemize}
+    \item \textbf{SVM improvement}: 10.75\% accuracy gain, demonstrating high sensitivity to outliers
+    \item \textbf{KNN improvement}: 2.42\% gain, more robust to outliers due to local decision boundaries
+    \item \textbf{Decision boundaries}: Removing the anomaly allows SVM to find cleaner hyperplanes
+\end{itemize}
+
+\subsubsection{Best Hyperparameters (Cleaned Dataset)}
+
+\textbf{KNN optimal configuration:}
+\begin{itemize}
+    \item n\_neighbors = 6, weights = distance, metric = manhattan
+    \item algorithm = auto, leaf\_size = 10
+    \item pca\_\_n\_components = 30
+    \item Cross-validation accuracy: 42.09\%
+\end{itemize}
+
+\textbf{SVM optimal configuration:}
+\begin{itemize}
+    \item kernel = linear, C = 100, gamma = scale
+    \item class\_weight = None, degree = 2
+    \item pca\_\_n\_components = 40
+    \item Cross-validation accuracy: 57.32\%
+\end{itemize}
+
+\subsubsection{Conclusions and Recommendations}
+
+\textbf{Main conclusions:}
+\begin{enumerate}
+    \item The Fus\_EH anomaly in sheet 0 is a \textbf{systematic measurement artifact}, not biological variation
+    \item The artifact is \textbf{session-specific}, affecting only the sheet 0 measurement campaign
+    \item Excluding the anomalous data improves model generalization, especially for SVM (+10.75\%)
+    \item The 1800-1889 nm region requires special attention in quality control protocols
 \end{enumerate}
+
 
 \newpage
 \appendix
@@ -951,10 +1022,10 @@ The main notebooks include:
 
 The experiments were run on:
 \begin{itemize}
-    \item \textbf{Processor}: [SPECIFY]
-    \item \textbf{RAM}: [SPECIFY]
-    \item \textbf{GPU}: [SPECIFY if applicable]
-    \item \textbf{Operating System}: Windows/Linux/macOS
+    \item \textbf{Processor}: Ryzen 7 7000 Series
+    \item \textbf{RAM}: 32 GB
+    \item \textbf{GPU}: Nvidia GeFORCE RTX 4060
+    \item \textbf{Operating System}: Windows 11 Pro
 \end{itemize}
 
 \end{document}

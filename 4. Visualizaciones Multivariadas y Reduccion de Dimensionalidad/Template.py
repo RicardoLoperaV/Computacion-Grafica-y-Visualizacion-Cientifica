@@ -14,13 +14,13 @@ class Template:
         'text.usetex': True,  # Use LaTeX for all text rendering
         'font.family': 'serif',
         'font.serif': ['Computer Modern Roman'],
-        'font.size': 11,
-        'axes.labelsize': 12,
-        'axes.titlesize': 14,
-        'xtick.labelsize': 10,
-        'ytick.labelsize': 10,
-        'legend.fontsize': 10,
-        'figure.titlesize': 16,
+        'font.size': 23,
+        'axes.labelsize': 25,
+        'axes.titlesize': 25,
+        'xtick.labelsize': 20,
+        'ytick.labelsize': 20,
+        'legend.fontsize':20,
+        'figure.titlesize': 23,
         
         # Math text settings - use LaTeX style
         'mathtext.fontset': 'cm',  # Computer Modern font for math
