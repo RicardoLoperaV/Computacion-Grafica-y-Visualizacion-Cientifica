@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+<!--This file was created by meshio v5.3.5-->
+<UnstructuredGrid>
+<Piece NumberOfPoints="127" NumberOfCells="347">
+<Points>
+<DataArray type="Float64" Name="Points" NumberOfComponents="3" format="binary">
+AQAAAACAAADoCwAABQIAAA==eJylls8rRFEUx21MrBB/wJSkrJTlqFuyt/GrbLC3Uv4FNSllKWUhG2NBVrI4ImXFNWMxC6bRjGmy0GM1ZIHn3VfzeY475aRO99xzz/me877njLa2vyQwf9t5H4jHLko8xe7NZzxaPHYfXvgzb6v4GJdSRr6yomN/2Pku4SfNWsvPd4yr4kN8rR8JfKxbfvdT68N3jHHirNmJy8cnX1+crlNHea2nfs2uxdX64iSuV5s7z3v2zeG3yG+Bi/d1xGFevicfODdWmrXm7+PfXeR3oMRP9F2xkwcUi/gav+O6cM++O3F46vSX5nsK58Cib/xeGh+JizjI10Q9wKnxnPHYB+5zbd7j+MhHPAl/D5+Jy8JOnMxzGuki9wn8Gce9qyr4tLmySnzy8N9z74njpM68Cr+cuHM18mf9gcxOfcuu5Pa+JY96+U7jrxP+Lrn3pzHe5nw1pQ+cR/aHeyYxF8ocJt4re8KalcXBr7+89GUOezOHBWU/cK8EwKN9F4en5uFtoo7oXIzxT4f9fEC+wOyH/b2SUO1dKn3Q9hjngLzk/tbm2Nlv4zgh3Kl78K3V/+MeTOf4+VL7fEneTkY33rdvzOJmdmdttWQGLo5S2aOSjA0Xjs9GruVlK/28vlI2j+lGz3R/VWo/2ix3f3Tkeiqm63VhZm6oKI3UxGT+qSLR2XwCPZLbuQ==
+</DataArray>
+</Points>
+<Cells>
+<DataArray type="Int32" Name="connectivity" format="binary">
+AQAAAACAAACwFQAAugYAAA==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
+</DataArray>
+<DataArray type="Int32" Name="offsets" format="binary">
+AQAAAACAAABsBQAA2QEAAA==eJwNz5GyKgoAQNHefefOBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEFwIAjumtnrA/ZPIBAIEiJMhCgx4iRIkiJNhiw58hQoUqJMhSo16jRo0qJNhy49+gwYMmLMhCkz5ixYsmLNhi079hw4cuLMhSs37jx48uLNLx++BP4LBH4IEiJMhCgx4iRIkiJNhiw58hQoUqJMhSo16jRo0qJNhy49+gwYMmLMhCkz5ixYsmLNhi079hw4cuLMhSs37jx48uLNLx++BP74J0iIMBGixIiTIEmKNBmy5MhToEiJMhWq1KjToEmLNh269OgzYMiIMROmzJizYMmKNRu27Nhz4MiJMxeu3Ljz4MmLN798+BL43z9BQoSJECVGnARJUqTJkCVHngJFSpSpUKVGnQZNWrTp0KVHnwFDRoyZMGXGnAVLVqzZsGXHngNHTpy5cOXGnQdPXrz55cOXwI8IEiJMhCgx4iRIkiJNhiw58hQoUqJMhSo16jRo0qJNhy49+gwYMmLMhCkz5ixYsmLNhi079hw4cuLMhSs37jx48uLNLx++BP76J0iIMBGixIiTIEmKNBmy5MhToEiJMhWq1KjToEmLfzdtpnU=
+</DataArray>
+<DataArray type="Int64" Name="types" format="binary">
+AQAAAACAAADYCgAAIAAAAA==eJzjYoAArlF6lB6lR+lRepQepUfpUXqUHsI0AMM/DY8=
+</DataArray>
+</Cells>
+<PointData>
+<DataArray type="Float64" Name="SolutionVector" NumberOfComponents="3" format="binary">
+AQAAAACAAADoCwAAhwEAAA==eJxjYKAOcPrsLRhRyLp/2dTdBxetOmVHrjmTF8x9ZrKR3x5dnHvD7GArw8/7KHPl4AN1d/7NLTFg2D/Q7hiqoMWjTSb6vAJGeqmzvuzza+WPYZdeRG/3z1zKPZns/EUtILHUNetyJeP+fXdqlKY6tWKEs/ubvkfp91Tg6XpBStHmtryfFMdHVmhj4P7zezDMOa7O93xLs9z+B3PY+FRXfKZ6+Oxt4Jmal8+x/5JwpTv32q9w++t2n2t0rnq1b8H/f5c29f3GcFf8S41D6ic+wsWdr/B/u+f0hObpcr2NkMUcU+LtyZv+e+eKx+/h4bY8pualxsvP+/RVrlv+WfFm2OUjdLDdtD9b7LciRjmCC1T+W16wK4Xy9DwK8AOB3pmuj1j/7LvwyXqymPKTAS/3YGB26F+Z9TcuDLn4vxG9gr8kis3+UIH+o9mLl8PD0/v9+Xaxys92t1etWDglnYtge8Q5wOZYhLHYgb2Zb7nnlYseoKmjRwHJwPl49bH571/B4xEAJu2fpQ==
+</DataArray>
+<DataArray type="Float64" Name="Magnitude" format="binary">
+AQAAAACAAAD4AwAADgEAAA==eJxjYMAONLScO541stqji09eMPeZyUZ+e+4Ns4OtDD/b4dBONKi7829uiQEDhj3UBi0ebTLR5xXs66wv+/xa+YNid4ve7p+5lHsy0eYcdj8f8aCS0d79Td+j9Hsq9gtSija35f3E0J8V2hi4//weu+umOw9Gv5DDGS4GGz4dV9jNZb9idkJJ36R/dvEvNQ6pn/ho53yF/9s9pyc43bXeRshijilCPm/6750rHr+3e/ovbitnB+XhAgPbTfuzxX4rwt1f+W95wa4UTP/SGmTOT2B5dOwv0fbODv0rs/7GBbLdqR+2j9Mmms1+2toZX2tVeOD+L+Da+vvqQzkHcs2lFnA+Xn1s/vtX9gDRVmw3
+</DataArray>
+<DataArray type="Float64" Name="RealPart" format="binary">
+AQAAAACAAAD4AwAAwQAAAA==eJxjYMAOnD57C0YUsu5HF5+8YO4zk4389twbZgdbGX7eh0M70aDuzr+5JQYMGPYMNyCx1DXrciUj3J8LUoo2t+X9xAi/rNDGwP3n9+w7rs73fEuzHM5w2dvAMzUvn2N/3e5zjc5Vr+DmOF/h/3bP6QnJ8bI8pualxkvK4xMGtpv2Z4v9VrSH8Sv/LS/YlYLpX1oDgd6Zro9Y/9DN3hvRK/hLotjsvd+fbxer/GwHE3cOsDkWYSx2gF7uIAQAgrZJkQ==
+</DataArray>
+<DataArray type="Float64" Name="ImaginaryPart" format="binary">
+AQAAAACAAAD4AwAAygAAAA==eJxjYMAOlk3dfXDRqlN2OKSHHGjxaJOJPq9gX2d92efXyh/7KDVP9Hb/zKXck4kOn313apSmOrXuc3/T9yj9nsp+QuofzGHjU13xGaf5l4Qr3bnXft234P+/S5v6fu+Lf6lxSP3ER4L+Wm8jZDHH9AlcXd703ztXPH5vp69y3fLPijcUh8tgAxc+WU8WU35CdDzNDv0rs/7GBbLD4VCB/qPZi5fb3V61YuGUdC54PO/NfMs9r1z0ALnmUgs4H68+Nv/9q/0A9slWFQ==
+</DataArray>
+<DataArray type="Float64" Name="Phase" format="binary">
+AQAAAACAAAD4AwAAogAAAA==eJxjYMAOHhs+8JRr5nDAIc0goesS8luRE6c8sYBa5hBnz097KL2fWuYRq74gMuWBvQTnAZj9uPwNE1/WIKr94xY7hjwMhFqf92Y6zXogvXXhHgM1BoLmorl7PxrffvnHtXPiVFgOEOsfUgG94hkd8Eat2t8fz0a0vZSmj+iHrYamryfYKy2qzP5Z9Rluzg7WNLEHv5kOkGsutQDMfwBvMlFi
+</DataArray>
+</PointData>
+<CellData>
+<DataArray type="Int32" Name="RegionID" format="binary">
+AQAAAACAAABsBQAAFwAAAA==eJxjZmBgYB7Fo3gUj+JRTFMMABRJBBI=
+</DataArray>
+</CellData>
+</Piece>
+</UnstructuredGrid>
+</VTKFile>

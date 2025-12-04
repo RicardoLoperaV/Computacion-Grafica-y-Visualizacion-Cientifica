@@ -247,11 +247,24 @@ def create_vtu_file(points, connectivity, region_ids, solution_vector, output_pa
     # Prepare point data (per-node data)
     point_data = {}
     if solution_vector is not None:
-        # Calculate magnitude and add as scalar field
-        magnitude = np.sqrt(solution_vector[:, 0]**2 + solution_vector[:, 1]**2)
-        point_data["SolutionVector"] = solution_vector
-        point_data["Magnitude"] = magnitude
-        print(f"    Added SolutionVector and Magnitude fields")
+        # Calculate derived fields from complex solution
+        real_part = solution_vector[:, 0]
+        imag_part = solution_vector[:, 1]
+        
+        # Magnitude: |z| = sqrt(real² + imag²)
+        magnitude = np.sqrt(real_part**2 + imag_part**2)
+        
+        # Phase: arg(z) = atan2(imag, real)
+        phase = np.arctan2(imag_part, real_part)
+        
+        # Add all fields to point data
+        point_data["SolutionVector"] = solution_vector  # Full 3D vector [Real, Imag, 0]
+        point_data["Magnitude"] = magnitude              # Scalar: field intensity
+        point_data["RealPart"] = real_part              # Scalar: real component
+        point_data["ImaginaryPart"] = imag_part         # Scalar: imaginary component
+        point_data["Phase"] = phase                      # Scalar: phase angle in radians
+        
+        print(f"    Added 5 solution fields: SolutionVector, Magnitude, RealPart, ImaginaryPart, Phase")
     
     # Create mesh
     mesh = meshio.Mesh(
